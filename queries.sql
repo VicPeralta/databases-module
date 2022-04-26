@@ -1,79 +1,41 @@
--- Inside a transaction update the animals table by setting the species column to unspecified. 
--- Verify that change was made. Then roll back the change and verify that species columns 
--- went back to the state before transaction.
 
--- setting the species column to unspecified
-BEGIN TRANSACTION;
-UPDATE animals SET species='unspecified';
--- Verify that change was made
-SELECT * FROM animals ORDER BY id; 
--- column specied contains unspecified
--- roll back the change
-ROLLBACK;
--- column specied contains null
+-- What animals belong to Melody Pond?
+-- Blossom, Charmander, Squirtle
+SELECT animals.name from animals INNER JOIN owners on animals.owner_id=owners.id
+WHERE owners.full_name='Melody Pond' ORDER BY animals.name;
 
--- Inside a transaction
--- Update the animals table by setting the species column to digimon for all animals 
--- that have a name ending in mon.
+-- List of all animals that are pokemon (their type is Pokemon)
+-- Blossom, Charmander, Pikachu, Squirtle
+SELECT animals.name FROM animals INNER JOIN species ON animals.species_id = species.id
+WHERE species.name='Pokemon' ORDER BY animals.name;
 
-BEGIN TRANSACTION;
-UPDATE animals SET species='digimon' WHERE name LIKE '%mon' ;
+-- List all owners and their animals, remember to include those that don't own any animal.
+SELECT owners.full_name, animals.name FROM owners LEFT JOIN animals ON owners.id = animals.owner_id
+ORDER BY owners.full_name;
 
--- Update the animals table by setting the species column to pokemon for all animals 
--- that don't have species already set.
-UPDATE animals SET species='pokemon' WHERE species IS NULL;
--- Commit the transaction.
-COMMIT TRANSACTION;
--- change was made and persists after commit.
-SELECT * FROM animals ORDER BY id;
+-- How many animals are there per species?
+-- Digimon 6, Pokemon 4
+SELECT species.name, COUNT(animals.name) AS count FROM animals  
+INNER JOIN species ON animals.species_id = species.id GROUP BY species.id
+ORDER BY count DESC;
 
-BEGIN TRANSACTION;
-DELETE FROM animals;
+-- List all Digimon owned by Jennifer Orwell.
+-- Gabumon
+SELECT animals.name FROM animals
+INNER JOIN owners ON animals.owner_id = owners.id 
+INNER JOIN species ON animals.species_id = species.id
+WHERE species.name='Digimon' AND owners.full_name='Jennifer Orwell'
+ORDER BY animals.name;
 
--- this query returns none
-SELECT * FROM animals ORDER BY id;
-ROLLBACK;
--- this query returns all records
-SELECT * FROM animals ORDER BY id;
+-- List all animals owned by Dean Winchester that haven't tried to escape.
+-- NONE
+SELECT animals.name FROM animals
+INNER JOIN owners ON animals.owner_id = owners.id 
+WHERE owners.full_name='Dean Winchester' AND escape_attempts=0
+ORDER BY animals.name;
 
--- inside a transaction
-BEGIN TRANSACTION;
--- Delete all animals born after Jan 1st, 2022.
-DELETE FROM animals WHERE date_of_birth > '2022-01-01';
-SELECT * FROM animals ORDER BY id;
--- Create a savepoint for the transaction.
-SAVEPOINT BEFORE_WEIGHT_CHANGE;
--- Update all animals' weight to be their weight multiplied by -1.
-UPDATE animals SET weight_kg = (weight_kg * -1);
-SELECT * FROM animals ORDER BY id;
--- Rollback to the savepoint
-ROLLBACK TO BEFORE_WEIGHT_CHANGE
-SELECT * FROM animals ORDER BY id;
--- Update all animals' weights that are negative to be their weight multiplied by -1.
-UPDATE animals SET weight_kg = (weight_kg * -1) WHERE weight_kg <0;
--- all weights positives
-SELECT * FROM animals ORDER BY id;
-COMMIT TRANSACTION;
-
--- How many animals are there? (10)
-SELECT COUNT(name) FROM animals;
-
--- How many animals have never tried to escape? (2)
-SELECT COUNT(name) FROM animals WHERE escape_attempts=0;
-
--- What is the average weight of animals? (15.567)
-SELECT AVG(weight_kg) AS "average weight" FROM animals;
-
--- Who escapes the most, neutered or not neutered animals? (Neutered 20)
-SELECT CASE 
-WHEN neutered=true THEN 'Neutered' ELSE 'Not Neutered' 
-END,
-SUM(escape_attempts) as "escapes" FROM animals GROUP BY neutered ORDER BY escapes DESC LIMIT 1;
-
--- What is the minimum and maximum weight of each type of animal?
-SELECT species, MIN(weight_kg) AS "Minimum weight", MAX(weight_kg)  AS "Maximum weight" FROM animals GROUP BY species;
-
--- What is the average number of escape attempts per animal type of those born 
--- between 1990 and 2000? (3)
-SELECT species, AVG(escape_attempts) FROM animals WHERE EXTRACT(YEAR FROM date_of_birth) 
-BETWEEN 1990 AND 2000 GROUP BY species;
+-- Who owns the most animals?
+-- Melody Pond 3
+SELECT owners.full_name, COUNT(animals.name) AS count FROM animals
+INNER JOIN owners ON animals.owner_id = owners.id 
+GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
