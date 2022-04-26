@@ -16,3 +16,6 @@ weight_kg DECIMAL not NULL
 ALTER TABLE animals 
 ADD CONSTRAINT PK_animals
 PRIMARY KEY (id)
+
+ALTER TABLE animals
+ADD COLUMN species varchar(100);
