@@ -53,3 +53,30 @@ name VARCHAR(100)
 ALTER TABLE species
 ADD CONSTRAINT PK_species
 PRIMARY KEY(id);
+
+-- Create table vets
+DROP TABLE IF EXISTS vets;
+CREATE TABLE vets(
+id INT GENERATED ALWAYS AS IDENTITY,
+name VARCHAR(100),
+age INTEGER,
+date_of_graduation DATE
+);
+
+-- Create Join table specializations 
+-- vets / species
+DROP TABLE IF EXISTS specializations;
+CREATE TABLE specializations(
+  vet_id INTEGER,
+  species_id INTEGER
+);
+
+-- Create Join table visits
+-- animals / vets
+DROP TABLE IF EXISTS visits;
+CREATE TABLE visits(
+animal_id INTEGER,
+vet_id INTEGER,
+visit_date DATE
+);
+
