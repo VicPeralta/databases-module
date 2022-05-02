@@ -4,6 +4,29 @@
 -- CREATE DATABASE vet_clinic;
 -- USE vet_clinic;
 
+-- Create table owners
+DROP TABLE IF EXISTS owners;
+CREATE TABLE owners(
+id INT GENERATED ALWAYS AS IDENTITY,
+full_name VARCHAR(100),
+age INTEGER
+);
+
+ALTER TABLE owners
+ADD CONSTRAINT PK_owners
+PRIMARY KEY(id);
+
+-- Create table species
+DROP TABLE IF EXISTS species;
+CREATE TABLE species(
+id INT GENERATED ALWAYS AS IDENTITY,
+name VARCHAR(100)
+);
+
+ALTER TABLE species
+ADD CONSTRAINT PK_species
+PRIMARY KEY(id);
+
 -- Create table animals
 DROP TABLE IF EXISTS animals;
 CREATE TABLE animals (
@@ -31,28 +54,6 @@ ADD CONSTRAINT FK_owners
 FOREIGN KEY (owner_id)
 REFERENCES owners (id);
 
--- Create table owners
-DROP TABLE IF EXISTS owners;
-CREATE TABLE owners(
-id INT GENERATED ALWAYS AS IDENTITY,
-full_name VARCHAR(100),
-age INTEGER
-);
-
-ALTER TABLE owners
-ADD CONSTRAINT PK_owners
-PRIMARY KEY(id);
-
--- Create table species
-DROP TABLE IF EXISTS species;
-CREATE TABLE species(
-id INT GENERATED ALWAYS AS IDENTITY,
-name VARCHAR(100)
-);
-
-ALTER TABLE species
-ADD CONSTRAINT PK_species
-PRIMARY KEY(id);
 
 -- Create table vets
 DROP TABLE IF EXISTS vets;
@@ -77,6 +78,6 @@ DROP TABLE IF EXISTS visits;
 CREATE TABLE visits(
 animal_id INTEGER,
 vet_id INTEGER,
-visit_date DATE
+date_of_visit DATE
 );
 

@@ -68,7 +68,7 @@ INSERT INTO specializations (vet_id, species_id) VALUES
 ((SELECT id from vets WHERE name='Jack Harkness'),
 (SELECT id from species WHERE name='Digimon'));
 
-INSERT INTO visits (animal_id, vet_id, visit_date) VALUES
+INSERT INTO visits (animal_id, vet_id, date_of_visit) VALUES
 (
   (SELECT id from animals WHERE name='Agumon'),
   (SELECT id from vets WHERE name='William Tatcher'),
