@@ -4,6 +4,31 @@
 -- CREATE DATABASE vet_clinic;
 -- USE vet_clinic;
 
+-- Create table owners
+DROP TABLE IF EXISTS owners;
+CREATE TABLE owners(
+id INT GENERATED ALWAYS AS IDENTITY,
+full_name VARCHAR(100),
+age INTEGER
+);
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+
+ALTER TABLE owners
+ADD CONSTRAINT PK_owners
+PRIMARY KEY(id);
+
+-- Create table species
+DROP TABLE IF EXISTS species;
+CREATE TABLE species(
+id INT GENERATED ALWAYS AS IDENTITY,
+name VARCHAR(100)
+);
+
+ALTER TABLE species
+ADD CONSTRAINT PK_species
+PRIMARY KEY(id);
+
 -- Create table animals
 DROP TABLE IF EXISTS animals;
 CREATE TABLE animals (
@@ -31,28 +56,6 @@ ADD CONSTRAINT FK_owners
 FOREIGN KEY (owner_id)
 REFERENCES owners (id);
 
--- Create table owners
-DROP TABLE IF EXISTS owners;
-CREATE TABLE owners(
-id INT GENERATED ALWAYS AS IDENTITY,
-full_name VARCHAR(100),
-age INTEGER
-);
-
-ALTER TABLE owners
-ADD CONSTRAINT PK_owners
-PRIMARY KEY(id);
-
--- Create table species
-DROP TABLE IF EXISTS species;
-CREATE TABLE species(
-id INT GENERATED ALWAYS AS IDENTITY,
-name VARCHAR(100)
-);
-
-ALTER TABLE species
-ADD CONSTRAINT PK_species
-PRIMARY KEY(id);
 
 -- Create table vets
 DROP TABLE IF EXISTS vets;
@@ -77,6 +80,13 @@ DROP TABLE IF EXISTS visits;
 CREATE TABLE visits(
 animal_id INTEGER,
 vet_id INTEGER,
-visit_date DATE
+date_of_visit DATE
 );
 
+-- Create index on visits table  based on animal_id
+CREATE INDEX IDX_animal_id ON visits (animal_id);
+
+-- Create index on visits table based on vet_id
+CREATE INDEX IDX_vet_id ON visits(vet_id);
+-- Create index on owners table
+CREATE INDEX IDX_email ON owners(email);
