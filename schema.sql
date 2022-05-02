@@ -11,6 +11,8 @@ id INT GENERATED ALWAYS AS IDENTITY,
 full_name VARCHAR(100),
 age INTEGER
 );
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
 
 ALTER TABLE owners
 ADD CONSTRAINT PK_owners
@@ -81,3 +83,10 @@ vet_id INTEGER,
 date_of_visit DATE
 );
 
+-- Create index on visits table  based on animal_id
+CREATE INDEX IDX_animal_id ON visits (animal_id);
+
+-- Create index on visits table based on vet_id
+CREATE INDEX IDX_vet_id ON visits(vet_id);
+-- Create index on owners table
+CREATE INDEX IDX_email ON owners(email);
