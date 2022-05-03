@@ -18,6 +18,9 @@ ALTER TABLE owners
 ALTER TABLE owners
   ADD CONSTRAINT PK_owners
   PRIMARY KEY(id);
+  
+-- Create index on owners table
+CREATE INDEX IDX_email ON owners(email);
 
 -- Create table species
 DROP TABLE IF EXISTS species;
@@ -113,5 +116,4 @@ CREATE INDEX IDX_animal_id ON visits (animal_id);
 
 -- Create index on visits table based on vet_id
 CREATE INDEX IDX_vet_id ON visits(vet_id);
--- Create index on owners table
-CREATE INDEX IDX_email ON owners(email);
+
