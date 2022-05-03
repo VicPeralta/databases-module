@@ -12,7 +12,7 @@ This repository includes files with plain SQL that can be used to recreate a dat
 - Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**   
 
 You can see the database's diagram [Here](https://drawsql.app/none-824/diagrams/diagram-lesson)
-<img src='./diagramDatabase.png'>
+<img src='./diagramDatabase.PNG'>
 ## Authors
 
 👤 **Victor Peralta**
