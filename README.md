@@ -9,9 +9,10 @@ This repository includes files with plain SQL that can be used to recreate a dat
 
 - Use [schema.sql](./schema.sql) to create all tables.
 - Use [data.sql](./data.sql) to populate tables with sample data.
-- Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**
+- Check [queries.sql](./queries.sql) for examples of queries that can be run on a newly created database. **Important note: this file might include queries that make changes in the database (e.g., remove records). Use them responsibly!**   
 
-<img src='./animals-table.png'>
+You can see the database's diagram [Here](https://drawsql.app/none-824/diagrams/diagram-lesson)
+<img src='./diagramDatabase.png'>
 ## Authors
 
 👤 **Victor Peralta**
@@ -30,11 +31,6 @@ Feel free to check the [issues page](https://github.com/VicPeralta/databases-mod
 
 Give a ⭐️ if you like this project!
 
-## Acknowledgments
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
 
 ## 📝 License
 
